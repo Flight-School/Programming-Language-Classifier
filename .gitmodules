@@ -1,0 +1,3 @@
+[submodule "code-corpora"]
+	path = code-corpora
+	url = https://github.com/source-foundry/code-corpora.git
