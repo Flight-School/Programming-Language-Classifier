@@ -47,10 +47,20 @@ $ cd Programming-Language-Classifier
 $ git submodule update --init
 ```
 
-- Open `Trainer.playground` and fill in the placeholder values
-  for `destinationPath` and `corpusPath`.
-- Run the playground and wait for the model to be trained
-  _(on a 2017 MacBook Pro, this took about an hour)_.
+- Open `Trainer.swift` in an editor and fill in the placeholder values
+  for `destinationPath` and `corpusPath`:
+
+```terminal
+$ open ./Trainer.swift
+```
+
+- Run `Trainer.swift` and wait for the model to be trained
+  _(on a 2017 MacBook Pro, this took a few minutes)_:
+
+```terminal
+$ swift ./Trainer.swift
+```
+
 - Compile the generated `.mlmodel` bundle using the following command:
 
 ```terminal
