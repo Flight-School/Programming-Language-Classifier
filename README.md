@@ -64,6 +64,9 @@ $ xcrun coremlc compile path/to/ProgrammingLanguageClassifier.mlmodel .
 
 MIT
 
+See [code-corpora](https://github.com/source-foundry/code-corpora)
+for licensing information of the included projects.
+
 ## About Flight School
 
 Flight School is a new book series for Swift developers.
@@ -74,7 +77,3 @@ If you'd like to get in touch,
 feel free to message us on Twitter
 ([@flightdotschool](https://twitter.com/flightdotschool))
 or email us at <mailto:info@flight.school>.
-
-```
-
-```
