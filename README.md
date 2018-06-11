@@ -35,6 +35,8 @@ run the playground with the Assistant editor showing the Live View,
 and then drag and drop a source code file.
 The model will predict the language of the file based on its contents.
 
+![Screenshot of Classifier Example](https://user-images.githubusercontent.com/7659/41239573-6d49e2da-6d4d-11e8-8a89-7075659a0845.png)
+
 ## Training Instructions
 
 - Clone and setup the repository by running the following commands:
