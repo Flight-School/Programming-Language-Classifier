@@ -67,13 +67,11 @@ do {
         }
     }
 
-    let (texts, labels) = corpus.reduce(into: ([String](), [String]())) {
+    let (texts, labels): ([String], [String]) = corpus.reduce(into: ([], [])) {
         $0.0.append($1.text)
         $0.1.append($1.label)
     }
-
     let dataTable = try MLDataTable(dictionary: ["text": texts, "label": labels])
-
 
     // As of Xcode 10.0 beta (10L176w),
     // attempted use of CRF algorithm results in EXC_BAD_ACCESS.
