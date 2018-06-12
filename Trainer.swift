@@ -39,9 +39,9 @@ enum ProgrammingLanguage: String {
     }
 }
 
-let destinationPath = "/Users/mattt/Desktop/Classifier.mlmodel"
+let destinationPath = <#path/to/ProgrammingLanguageClassifier.mlmodel#>
 
-let corpusPath = "/Users/mattt/Downloads/code-corpora"
+let corpusPath = <#path/to/code-corpora#>
 let corpusURL = URL(fileURLWithPath: corpusPath)
 
 let fileManager = FileManager.default
