@@ -21,8 +21,10 @@ enum ProgrammingLanguage: String {
     case rust = "Rust"
     case swift = "Swift"
 
-    init?(directory: String, fileExtension: String?) {
-        switch (directory, fileExtension) {
+    init?(for fileURL: URL, at level: Int) {
+        let pathComponents = fileURL.pathComponents
+        let directory = pathComponents[pathComponents.count - level]
+        switch (directory, fileURL.pathExtension) {
         case ("c", "h"), (_, "c"): self = .c
         case ("cc", "h"), (_, "cc"), (_, "cpp"): self = .cPlusPlus
         case (_, "go"): self = .go
@@ -44,27 +46,18 @@ let destinationPath = <#path/to/ProgrammingLanguageClassifier.mlmodel#>
 let corpusPath = <#path/to/code-corpora#>
 let corpusURL = URL(fileURLWithPath: corpusPath)
 
-let fileManager = FileManager.default
-
 do {
     var corpus: [(text: String, label: String)] = []
 
-    for directory in try fileManager.contentsOfDirectory(at: corpusURL, includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles]) {
-        guard directory.hasDirectoryPath,
-            let enumerator = fileManager.enumerator(at: directory, includingPropertiesForKeys: [.isDirectoryKey])
+    let enumerator = FileManager.default.enumerator(at: corpusURL, includingPropertiesForKeys: [.isDirectoryKey])!
+    for case let resource as URL in enumerator {
+        guard !resource.hasDirectoryPath,
+            let language = ProgrammingLanguage(for: resource, at: enumerator.level),
+            let text = try? String(contentsOf: resource)
         else {
             continue
         }
-
-        for case let resource as URL in enumerator {
-            guard !resource.hasDirectoryPath,
-                let language = ProgrammingLanguage(directory: directory.lastPathComponent, fileExtension: resource.pathExtension),
-                let text = try? String(contentsOf: resource)
-            else {
-                 continue
-            }
-            corpus.append((text: text, label: language.rawValue))
-        }
+        corpus.append((text: text, label: language.rawValue))
     }
 
     let (texts, labels): ([String], [String]) = corpus.reduce(into: ([], [])) {
