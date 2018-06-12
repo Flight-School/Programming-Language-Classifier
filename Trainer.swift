@@ -74,24 +74,30 @@ do {
 
     let dataTable = try MLDataTable(dictionary: ["text": texts, "label": labels])
 
-    let (trainingData, testingData) = dataTable.randomSplit(by: 0.9, seed: 0)
 
     // As of Xcode 10.0 beta (10L176w),
     // attempted use of CRF algorithm results in EXC_BAD_ACCESS.
+    // See https://gist.github.com/mattt/1ce5101abfdb87d1bba60a680ec6b29b
     /*
+    var trainingData: MLDataTable
+    var testingData: MLDataTable
+    var validationData: MLDataTable
+
+    (trainingData, testingData) = dataTable.randomSplit(by: 0.8, seed: 0)
+    (trainingData, validationData) = trainingData.randomSplit(by: 0.95, seed: 0)
     let parameters = MLTextClassifier.ModelParameters(validationData: validationData, algorithm: .crf(revision: 1), language: .english)
     let classifier = try MLTextClassifier(trainingData: trainingData, textColumn: "text", labelColumn: "label", parameters: parameters)
-     */
+    */
 
+    let (trainingData, testingData) = dataTable.randomSplit(by: 0.8, seed: 0)
     let classifier = try MLTextClassifier(trainingData: trainingData, textColumn: "text", labelColumn: "label")
-
-    classifier.modelParameters.algorithm
 
     let evaluation = classifier.evaluation(on: testingData)
     print(evaluation)
 
     let modelPath = URL(fileURLWithPath: destinationPath)
-    try classifier.write(to: modelPath)
+    let metadata = MLModelMetadata(author: "Mattt", shortDescription: "A model trained to classify programming languages", version: "1.0")
+    try classifier.write(to: modelPath, metadata: metadata)
 } catch {
     print(error)
 }
